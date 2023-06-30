@@ -1,5 +1,4 @@
 # Action_Magisk_Patche
-test
 **这是一个用来修补 boot.img / init_boot.img 的 Github Action 项目**
 
 
