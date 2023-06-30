@@ -7,7 +7,11 @@ on:
         description: '卡刷包ROM 下载直链'
         required: true
         default: ''
+      rom_version:
+        description: 'ROM版本号:'
+        required: true
 
+        default: ''
 jobs:
   magisk_upack:
     permissions:
@@ -50,6 +54,7 @@ jobs:
           touch info.md
           echo "提交日期：$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S')" >> info.md
           echo "下载直链：${{ github.event.inputs.rom_url }}" >> info.md
+          echo 'ROM版本: ${{ github.event.inputs.rom_version }}' >> info.md
 
       #- name: 上传到阿里云盘
       #  run: |
@@ -65,5 +70,5 @@ jobs:
         with:
             artifacts: "~/Magisk/done/*"
             bodyfile: "${{ github.workspace }}/info.md"
-            tag: "Magisk_${{ env.BUILD_TIME }}_${{ github.run_id }}"
+            tag: "Magisk_${{ env.BUILD_TIME }}_${{ github.run_id }}_${{ github.event.inputs.rom_version }}"
             token: ${{ secrets.GITHUB_TOKEN }}
