@@ -38,13 +38,13 @@ jobs:
           echo "boot 下载直链：${{ github.event.inputs.boot_url }}" >> info.md
 
 
-      - name: 上传到阿里云盘
-        run: |
-          sudo apt-get update
-          python3 -m venv $PWD/venv
-          pip3 install -U aligo
-          pip install -U aligo
-          python3 aliyun.py
+      #- name: 上传到阿里云盘
+      #  run: |
+      #    sudo apt-get update
+      #    python3 -m venv $PWD/venv
+      #    pip3 install -U aligo
+      #    pip install -U aligo
+      #    python3 aliyun.py
 
           
       - name: 上传镜像
