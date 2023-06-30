@@ -6,7 +6,7 @@ on:
       rom_url:
         description: '卡刷包ROM 下载直链'
         required: true
-        default: 'https://bigota.d.miui.com/V14.0.5.0.TKPCNXM/miui_CHOPIN_V14.0.5.0.TKPCNXM_242d1a6ff5_13.0.zip'
+        default: 'https://'
 
 jobs:
   magisk_upack:
@@ -29,7 +29,7 @@ jobs:
           aria2c -s 10 -x 10 -d . -o firmware.zip "${{ github.event.inputs.rom_url }}"
           unzip firmware.zip
           chmod +x ./payload-dumper-go
-          ./payload-dumper-go -p boot payload.bin
+          ./payload-dumper-go -p boot payload.bin -o out
           
       - name: 修补boot
         run: |
@@ -40,6 +40,7 @@ jobs:
           mkdir done
           cp boot.img done/
           ./boot.sh
+         
  
       - name: 提交信息
         run: |
