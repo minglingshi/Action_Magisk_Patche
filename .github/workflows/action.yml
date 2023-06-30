@@ -26,7 +26,7 @@ jobs:
       - name: 提取镜像
         run: |
           cd ${{ github.workspace }}
-          aria2c -s 10 -x 10 -d . -o firmware.zip "${{ github.event.inputs.rom_url }}"
+          aria2c -s 5 -x 5 -d . -o firmware.zip "${{ github.event.inputs.rom_url }}"
           unzip firmware.zip payload.bin
           chmod +x ./payload-dumper-go
           ./payload-dumper-go -p boot payload.bin
