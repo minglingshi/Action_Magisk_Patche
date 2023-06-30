@@ -6,7 +6,7 @@ on:
       rom_url:
         description: '卡刷包ROM 下载直链'
         required: true
-        default: 'https://'
+        default: ''
 
 jobs:
   magisk_upack:
@@ -29,14 +29,14 @@ jobs:
           aria2c -s 10 -x 10 -d . -o firmware.zip "${{ github.event.inputs.rom_url }}"
           unzip firmware.zip payload.bin
           chmod +x ./payload-dumper-go
-          ./payload-dumper-go -p boot payload.bin -o .
+          ./payload-dumper-go -p boot payload.bin
           
       - name: 修补boot
         run: |
           cd ~
           git clone https://github.com/xyazzrany/Magisk_patche.git Magisk
           cd Magisk
-          #mv ${{ github.workspace }}/out/* ./
+          mv ${{ github.workspace }}/out/* ./
           mkdir done
 
           ls
