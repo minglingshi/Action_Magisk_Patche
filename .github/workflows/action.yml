@@ -7,10 +7,9 @@ on:
         description: '卡刷包ROM 下载直链'
         required: true
         default: ''
-      rom_version:
-        description: 'ROM版本号:'
-        required: true
-
+      note:
+        description: '备注:'
+        required: false
         default: ''
 jobs:
   magisk_upack:
@@ -31,7 +30,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           aria2c -s 5 -x 5 -d . -o firmware.zip "${{ github.event.inputs.rom_url }}"
-          unzip firmware.zip payload.bin
+          unzip firmware.zip payload.bin payload_properties.txt
           chmod +x ./payload-dumper-go
           ./payload-dumper-go -p boot payload.bin
           
@@ -42,8 +41,6 @@ jobs:
           cd Magisk
           mv ${{ github.workspace }}/out/* ./
           mkdir done
-
-          ls
           cp boot.img done/
           ./boot.sh
          
@@ -54,21 +51,15 @@ jobs:
           touch info.md
           echo "提交日期：$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S')" >> info.md
           echo "下载直链：${{ github.event.inputs.rom_url }}" >> info.md
-          echo 'ROM版本: ${{ github.event.inputs.rom_version }}' >> info.md
-
-      #- name: 上传到阿里云盘
-      #  run: |
-      #    sudo apt-get update
-      #    python3 -m venv $PWD/venv
-      #    pip3 install -U aligo
-      #    pip install -U aligo
-      #    python3 aliyun.py
-
+          echo 'note: ${{ github.event.inputs.note }}' >> info.md
+          echo '| key      | value |' >> info.md
+          echo '| ----| --- |' >> info.md
+          cat payload_properties.txt | awk -F= '{print $1,"|",$2 }' >> info.md
 
       - name: 上传镜像
         uses: ncipollo/release-action@v1.12.0
         with:
             artifacts: "~/Magisk/done/*"
             bodyfile: "${{ github.workspace }}/info.md"
-            tag: "Magisk_${{ env.BUILD_TIME }}_${{ github.run_id }}_${{ github.event.inputs.rom_version }}"
+            tag: "Magisk_${{ env.BUILD_TIME }}_${{ github.run_id }}"
             token: ${{ secrets.GITHUB_TOKEN }}
