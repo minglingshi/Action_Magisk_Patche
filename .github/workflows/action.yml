@@ -12,7 +12,7 @@ on:
         required: false
         default: ''
 jobs:
-  magisk_upack:
+  magisk_unpack:
     permissions:
       contents: write
     runs-on: ubuntu-latest
