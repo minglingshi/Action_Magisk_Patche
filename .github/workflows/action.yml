@@ -23,7 +23,7 @@ jobs:
       - name: 安装依赖
         run: |
           sudo apt-get update
-          sudo apt-get -y install aria2 unzip
+          sudo apt-get -y install aria2 unzip android-tools
           BUILD_TIME=$(TZ=Asia/Shanghai date +"%m%d%H%M")
           echo "BUILD_TIME=$BUILD_TIME" >> $GITHUB_ENV
       - name: 提取镜像
@@ -43,7 +43,8 @@ jobs:
           mkdir done
           cp boot.img done/
           ./boot.sh
-         
+          img2simg done/boot.img done/boot_sparse.img
+          img2simg Magisk_boot*.img Magisk_boot_sparse.img
  
       - name: 提交信息
         run: |
