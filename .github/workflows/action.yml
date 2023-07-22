@@ -44,7 +44,7 @@ jobs:
           cp boot.img done/
           ./boot.sh
           img2simg done/boot.img done/boot_sparse.img
-          img2simg Magisk_boot*.img Magisk_boot_sparse.img
+          img2simg done/boot_magisk.img done/boot_magisk_sparse.img
  
       - name: 提交信息
         run: |
